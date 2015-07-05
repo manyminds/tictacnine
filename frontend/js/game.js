@@ -36,7 +36,7 @@ $.fn.tictacnine = function() {
             throw "field not found";
           }
 
-          if (field.children('.won-x').length > 0 || field.children('.won-o').length > 0) {
+          if (field.find('.won-x').length > 0 || field.find('.won-o').length > 0) {
             return; 
           }
 
@@ -76,9 +76,9 @@ $.fn.tictacnine = function() {
             var sum = board[fields[0]] + board[fields[1]] + board[fields[2]]; 
 
             if (sum == 0) {
-              field.append('<div class="won-x"></div>'); 
+              field.find('tbody').before('<div class="won-x"></div>'); 
             } else if(sum == 3) {
-              field.append('<div class="won-o"></div>'); 
+              field.find('tbody').before('<div class="won-o"></div>'); 
             } 
           }
         }, 
