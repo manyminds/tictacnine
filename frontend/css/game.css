@@ -1,4 +1,13 @@
+body {
+  background-color: #ddd; 
+}
+
+.container {
+  margin-top: 10px; 
+}
+
 .table>tbody>tr>td.field-outer {
+  background-color: #aaa; 
   padding: 40px;
   vertical-align: middle; 
   border-color: #888;  
@@ -28,14 +37,14 @@
 }
 
 [data-value="x"] {
-  color: blue; 
+  color: #00c; 
 }
 
 [data-value="x"]:after {
   content: 'X'; 
 }
 [data-value="o"] {
-  color: red; 
+  color: #c00; 
 }
 
 [data-value="o"]:after {
