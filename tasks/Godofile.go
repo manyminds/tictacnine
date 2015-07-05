@@ -20,6 +20,9 @@ func tasks(p *godo.Project) {
 	p.Task("frontend", godo.D{}, func() error {
 		godo.Bash("mkdir -p frontend/css/dist/octicons")
 		godo.Bash("mkdir -p frontend/css/dist/bootstrap")
+		godo.Bash("mkdir -p frontend/js/dist/jquery")
+
+		godo.Bash("cp bower_components/jquery/dist/jquery.min.js frontend/js/dist/jquery/")
 		godo.Bash("cp bower_components/bootstrap/dist/css/bootstrap.min.css frontend/css/dist/bootstrap/")
 		return godo.Bash("cp -r bower_components/octicons/octicons/ frontend/css/dist/octicons/")
 	})

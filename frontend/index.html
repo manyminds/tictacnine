@@ -7,14 +7,195 @@
     <title>Hello World</title>
     <link rel="stylesheet" href="css/dist/octicons/octicons.css">
     <link rel="stylesheet" href="css/dist/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/game.css">
+    <script type="text/javascript" src="js/dist/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript">
+      $('#field').tictacnine(); 
+    </script>
   </head>
 
   <body>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-         <span class="mega-octicon octicon-globe"></span>Hello World!
-        </div>
-      </div>
+    <div class="container" id="field">
+      <table class="table table-bordered">
+        <tr>
+          <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="0" data-pos-y="0" class="field-inner"><div class="content">/</div></td>
+                  <td data-pos-x="1" data-pos-y="0" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="0" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="0" data-pos-y="1" class="field-inner"></td>
+                  <td data-pos-x="1" data-pos-y="1" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="1" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="0" data-pos-y="2" class="field-inner"></td>
+                  <td data-pos-x="1" data-pos-y="2" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="2" class="field-inner"></td>
+                </tr>
+              </table>
+          </td>
+           <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="3" data-pos-y="0" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="0" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="0" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="3" data-pos-y="1" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="1" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="1" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="3" data-pos-y="2" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="2" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="2" class="field-inner"></td>
+                </tr>
+             </table>
+          </td>
+           <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="6" data-pos-y="0" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="0" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="0" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="6" data-pos-y="1" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="1" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="1" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="6" data-pos-y="2" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="2" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="2" class="field-inner"></td>
+                </tr>
+              </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="0" data-pos-y="3" class="field-inner"></td>
+                  <td data-pos-x="1" data-pos-y="3" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="3" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="0" data-pos-y="4" class="field-inner"></td>
+                  <td data-pos-x="1" data-pos-y="4" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="4" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="0" data-pos-y="5" class="field-inner"></td>
+                  <td data-pos-x="1" data-pos-y="5" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="5" class="field-inner"></td>
+                </tr>
+              </table>
+          </td>
+           <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="3" data-pos-y="3" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="3" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="3" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="3" data-pos-y="4" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="4" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="4" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="3" data-pos-y="5" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="5" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="5" class="field-inner"></td>
+                </tr>
+             </table>
+          </td>
+           <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="6" data-pos-y="3" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="3" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="3" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="6" data-pos-y="4" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="4" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="4" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="6" data-pos-y="5" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="5" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="5" class="field-inner"></td>
+                </tr>
+              </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="0" data-pos-y="6" class="field-inner"></td>
+                  <td data-pos-x="1" data-pos-y="6" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="6" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="0" data-pos-y="7" class="field-inner"></td>
+                  <td data-pos-x="1" data-pos-y="7" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="7" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="0" data-pos-y="8" class="field-inner"></td>
+                  <td data-pos-x="1" data-pos-y="8" class="field-inner"></td>
+                  <td data-pos-x="2" data-pos-y="8" class="field-inner"></td>
+                </tr>
+              </table>
+          </td>
+           <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="3" data-pos-y="6" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="6" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="6" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="3" data-pos-y="7" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="7" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="7" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="3" data-pos-y="8" class="field-inner"></td>
+                  <td data-pos-x="4" data-pos-y="8" class="field-inner"></td>
+                  <td data-pos-x="5" data-pos-y="8" class="field-inner"></td>
+                </tr>
+             </table>
+          </td>
+           <td class="field-outer">
+              <table class="table table-bordered">
+                <tr>
+                  <td data-pos-x="6" data-pos-y="6" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="6" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="6" class="field-inner"></td>
+                </tr>
+               <tr>
+                  <td data-pos-x="6" data-pos-y="7" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="7" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="7" class="field-inner"></td>
+                </tr>
+                 <tr>
+                  <td data-pos-x="6" data-pos-y="8" class="field-inner"></td>
+                  <td data-pos-x="7" data-pos-y="8" class="field-inner"></td>
+                  <td data-pos-x="8" data-pos-y="8" class="field-inner"></td>
+                </tr>
+              </table>
+          </td>
+        </tr>
+      </table>
+    </div>
   </body>
 </html>

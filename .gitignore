@@ -18,11 +18,14 @@ _cgo_gotypes.go
 _cgo_export.*
 
 _testmain.go
+*.exe
+*.test
+*.prof
 
+# custom ignore paths
+frontend/js/dist/
 frontend/css/dist/
 bower_components/
 tasks/godobin*
 bin/*
-*.exe
-*.test
-*.prof
+
