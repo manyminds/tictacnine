@@ -5,7 +5,7 @@ $.fn.tictacnine = function() {
       var internalGame = {
         reset : function() {
           container.find('.field-outer').each(function() {
-            $(this).removeClass('active'); 
+            $(this).addClass('active');
           }); 
 
           container.find('.field-inner').each(function() {
@@ -35,14 +35,27 @@ $.fn.tictacnine = function() {
         },
 
         SetField : function(x, y) {
-          internalGame.reset();
+          container.find('.field-outer').each(function() {
+            $(this).removeClass('active'); 
+          }); 
+
+          var selector = '[data-field-x="'+x+'"][data-field-y="'+y+'"]'; 
+          field = container.find(selector); 
+          if (!field) {
+            throw "field not found";
+          }
+         
+         field.addClass("active"); 
+        }, 
+
+        IsActiveField : function(x, y) {
           var selector = '[data-field-x="'+x+'"][data-field-y="'+y+'"]'; 
           field = container.find(selector); 
           if (!field) {
             throw "field not found";
           }
 
-         field.addClass("active"); 
+          return field.hasClass('active'); 
         }
       };
       
@@ -70,6 +83,11 @@ $.fn.tictacnine = function() {
               return; 
             }
 
+            if (! b.IsActiveField(Math.floor(x/3), Math.floor(y/3))) {
+              alert("only the active field is allowed.");
+              return 
+            }
+
             if (activePlayer === playerOne) {
               b.SetContent(x,y, 'x');              
               activePlayer = playerTwo; 
@@ -77,6 +95,8 @@ $.fn.tictacnine = function() {
               b.SetContent(x,y, 'o');              
               activePlayer = playerOne; 
             }
+
+            b.SetField(x%3, y%3); 
           }); 
         } 
       }; 
