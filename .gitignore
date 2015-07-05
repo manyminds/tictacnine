@@ -19,6 +19,8 @@ _cgo_export.*
 
 _testmain.go
 
+frontend/css/dist/
+bower_components/
 tasks/godobin*
 bin/*
 *.exe

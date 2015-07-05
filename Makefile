@@ -1,2 +1,2 @@
 dev:
-	godo build server -w
+	godo build backend -w

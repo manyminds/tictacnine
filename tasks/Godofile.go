@@ -17,7 +17,12 @@ func tasks(p *godo.Project) {
 		return godo.Run("go build -o ../bin/ttn", godo.In{"cmd/"})
 	}).Watch("**/*.go")
 
-	p.Task("server", godo.D{"build"}, func() {
+	p.Task("frontend", godo.D{}, func() error {
+		godo.Bash("mkdir -p frontend/css/dist/octicons")
+		return godo.Run("cp -r bower_components/octicons/octicons/ frontend/css/dist/octicons/")
+	})
+
+	p.Task("backend", godo.D{"frontend", "build"}, func() {
 		godo.Start("main.go", godo.M{"$in": "cmd"})
 	}).Watch("**/*.go", "*.{go,json}").
 		Debounce(3000)
