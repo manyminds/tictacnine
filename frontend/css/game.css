@@ -6,6 +6,36 @@ body {
   margin-top: 10px; 
 }
 
+.won-x {
+  font-size: 250px; 
+  position: absolute; 
+  z-index: 1;
+  height: 280px;
+  margin-top: -70px; 
+  margin-left: 40px; 
+  pointer-events:none;
+  color: #00c; 
+}
+
+.won-x:after {
+  content: 'X';
+}
+
+.won-o {
+  font-size: 250px; 
+  position: absolute; 
+  z-index: 1;
+  height: 280px;
+  margin-top: -70px; 
+  margin-left: 20px; 
+  pointer-events:none;
+  color: #c00; 
+}
+
+.won-o:after {
+  content: 'O';
+}
+
 .table>tbody>tr>td.field-outer {
   background-color: #aaa; 
   padding: 40px;
