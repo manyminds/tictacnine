@@ -29,8 +29,62 @@ $.fn.tictacnine = function() {
           field.attr('data-value', text); 
         }, 
 
+        CalcFieldWon : function(x, y) {
+          var selector = '[data-field-x="'+x+'"][data-field-y="'+y+'"]'; 
+          field = container.find(selector); 
+          if (!field) {
+            throw "field not found";
+          }
+
+          if (field.children('.won-x').length > 0 || field.children('.won-o').length > 0) {
+            return; 
+          }
+
+          var validationLines = [
+            [0, 4, 8], 
+            [0, 1, 2], 
+            [0, 3, 6], 
+            [1, 4, 7], 
+            [2, 5, 8], 
+            [2, 4, 6],
+            [3, 4, 5], 
+            [6, 7, 8]
+          ]; 
+
+          var board = new Array(); 
+
+          field.find('.field-inner').each(function() {
+            var value = $(this).attr('data-value'); 
+            var x = $(this).attr('data-pos-x') % 3, 
+                y = $(this).attr('data-pos-y') % 3;  
+         
+            var pos = x+(y*3);
+
+            if (value) {  
+             if (value == 'x') {
+                board[pos] = 0;  
+              } else {
+                board[pos] = 1;  
+              }
+            } else {
+              board[pos] = 9; 
+            }
+          });
+
+          for (var row = 0; row < validationLines.length; row++) {
+            var fields = validationLines[row]; 
+            var sum = board[fields[0]] + board[fields[1]] + board[fields[2]]; 
+
+            if (sum == 0) {
+              field.append('<div class="won-x"></div>'); 
+            } else if(sum == 3) {
+              field.append('<div class="won-o"></div>'); 
+            } 
+          }
+        }, 
+
         GetContent : function(x, y) {
-           var selector = '[data-pos-x="'+x+'"][data-pos-y="'+y+'"]';
+         var selector = '[data-pos-x="'+x+'"][data-pos-y="'+y+'"]';
           field = container.find(selector); 
           if (!field) {
             throw "field not found";
@@ -129,6 +183,8 @@ $.fn.tictacnine = function() {
               b.SetContent(x,y, 'o');              
               activePlayer = playerOne; 
             }
+            
+            b.CalcFieldWon(fieldX, fieldY);  
 
             var targetFieldX = x%3; 
             var targetFieldY = y%3; 
