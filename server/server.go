@@ -1,6 +1,10 @@
 package server
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/manyminds/tictacnine/game"
+)
 
 type server struct {
 	handler http.Handler
@@ -11,6 +15,8 @@ func NewServer(dist string) http.Handler {
 	mux := http.NewServeMux()
 	fileHandler := http.FileServer(http.Dir(dist))
 	mux.Handle("/", fileHandler)
+	g := game.NewGame()
+	mux.Handle("/game/", g)
 	s := server{}
 	s.handler = mux
 	return &s

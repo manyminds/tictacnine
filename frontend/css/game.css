@@ -14,7 +14,7 @@ body {
   margin-top: -70px; 
   margin-left: 40px; 
   pointer-events:none;
-  color: #00c; 
+  color: rgba( 0, 0, 208, 0.7);
 }
 
 .won-x:after {
@@ -29,7 +29,7 @@ body {
   margin-top: -70px; 
   margin-left: 20px; 
   pointer-events:none;
-  color: #c00; 
+  color: rgba(208, 0, 0, 0.7);
 }
 
 .won-o:after {

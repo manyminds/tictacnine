@@ -160,6 +160,10 @@ $.fn.tictacnine = function() {
           activePlayer = playerOne; 
           var b = board(container);
 
+          $.get("/game/init", function(data) {
+
+          })
+
           container.find('.field-inner').click (function() {
             var x = $(this).data('pos-x'); 
             var y = $(this).data('pos-y');
