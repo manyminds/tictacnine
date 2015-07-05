@@ -1,12 +1,21 @@
 .table>tbody>tr>td.field-outer {
   padding: 40px;
+  vertical-align: middle; 
+}
+
+.table-bordered {
+  margin-bottom: 0 !important; 
+}
+
+.table>tbody>tr>td.field-outer.active{
+  background-color: #5F5;
 }
 
 .table>tbody>tr>td.field-inner {
   height: 70px; 
   width: 70px;
   text-align: center;
-  vertical-align: center;  
+  vertical-align: middle;  
   font-size: 40px; 
   cursor: not-allowed; 
 }
