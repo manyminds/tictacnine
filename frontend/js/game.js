@@ -34,11 +34,13 @@ $.fn.tictacnine = function() {
           return field.attr('data-value');
         },
 
-        SetField : function(x, y) {
-          container.find('.field-outer').each(function() {
-            $(this).removeClass('active'); 
-          }); 
-
+        SetField : function(x, y, clear) {
+          if (clear) {
+             container.find('.field-outer').each(function() {
+              $(this).removeClass('active'); 
+            }); 
+          }
+          
           var selector = '[data-field-x="'+x+'"][data-field-y="'+y+'"]'; 
           field = container.find(selector); 
           if (!field) {
@@ -56,6 +58,24 @@ $.fn.tictacnine = function() {
           }
 
           return field.hasClass('active'); 
+        }, 
+  
+       IsFullField : function(x, y) {
+          var selector = '[data-field-x="'+x+'"][data-field-y="'+y+'"]'; 
+          field = container.find(selector); 
+          if (!field) {
+            throw "field not found";
+          }
+
+          var numElems = 0; 
+          field.find('.field-inner').each(function() {
+            if ($(this).attr('data-value')) {
+              numElems++; 
+            }
+          }); 
+
+          console.log(numElems); 
+          return numElems == 9;  
         }
       };
       
@@ -83,7 +103,10 @@ $.fn.tictacnine = function() {
               return; 
             }
 
-            if (! b.IsActiveField(Math.floor(x/3), Math.floor(y/3))) {
+            var fieldX = Math.floor(x/3); 
+            var fieldY = Math.floor(y/3); 
+
+            if (! b.IsActiveField(fieldX, fieldY)) {
               alert("only the active field is allowed.");
               return 
             }
@@ -96,7 +119,19 @@ $.fn.tictacnine = function() {
               activePlayer = playerOne; 
             }
 
-            b.SetField(x%3, y%3); 
+            var targetFieldX = x%3; 
+            var targetFieldY = y%3; 
+            if (! b.IsFullField(targetFieldX, targetFieldY)) {
+              b.SetField(targetFieldX, targetFieldY, true); 
+            } else {
+              for (var fx = 0; fx < 3; fx++) {
+                for(var fy = 0; fy < 3; fy++) {
+                  if (! b.IsFullField(fx, fy)) {
+                    b.SetField(fx, fy, false);  
+                  }
+                }
+              }
+            }
           }); 
         } 
       }; 
