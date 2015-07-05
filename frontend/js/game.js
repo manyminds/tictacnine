@@ -14,6 +14,11 @@ $.fn.tictacnine = function() {
           }); 
         }, 
 
+        showError : function(msg) {
+          //TODO display clean errors, for now:
+          alert(msg); 
+        }, 
+
         SetContent : function(x, y, text) {
           var selector = '[data-pos-x="'+x+'"][data-pos-y="'+y+'"]';
           field = container.find(selector); 
@@ -37,7 +42,11 @@ $.fn.tictacnine = function() {
         SetField : function(x, y, clear) {
           if (clear) {
              container.find('.field-outer').each(function() {
-              $(this).removeClass('active'); 
+               $(this).find('.field-inner').each(function() {
+                $(this).removeClass('active'); 
+               }); 
+
+               $(this).removeClass('active'); 
             }); 
           }
           
@@ -47,7 +56,10 @@ $.fn.tictacnine = function() {
             throw "field not found";
           }
          
-         field.addClass("active"); 
+         field.addClass("active");
+         field.find('.field-inner').each(function() {
+          $(this).addClass('active'); 
+         });  
         }, 
 
         IsActiveField : function(x, y) {
@@ -74,7 +86,6 @@ $.fn.tictacnine = function() {
             }
           }); 
 
-          console.log(numElems); 
           return numElems == 9;  
         }
       };
@@ -99,7 +110,7 @@ $.fn.tictacnine = function() {
             var x = $(this).data('pos-x'); 
             var y = $(this).data('pos-y');
             if (b.GetContent(x, y) != undefined) {
-              alert("Already used."); 
+              b.showError("Already used."); 
               return; 
             }
 
@@ -107,7 +118,7 @@ $.fn.tictacnine = function() {
             var fieldY = Math.floor(y/3); 
 
             if (! b.IsActiveField(fieldX, fieldY)) {
-              alert("only the active field is allowed.");
+              b.showError("only the active field is allowed.");
               return 
             }
 
