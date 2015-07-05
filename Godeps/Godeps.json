@@ -1,0 +1,56 @@
+{
+	"ImportPath": "github.com/manyminds/tictacnine",
+	"GoVersion": "go1.4.2",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/MichaelTJones/walk",
+			"Rev": "3af09438b0ab0e8f296410bfa646a7e635ea1fc0"
+		},
+		{
+			"ImportPath": "github.com/gokyle/fswatch",
+			"Rev": "1dbdf8320a690537582afe0f45c947f501adeaad"
+		},
+		{
+			"ImportPath": "github.com/howeyc/gopass",
+			"Rev": "2c70fa70727c953c51695f800f25d6b44abb368e"
+		},
+		{
+			"ImportPath": "github.com/lucas-clemente/go-http-logger",
+			"Rev": "0ba07d157a1e5a262f5e7f5ee7bf37719fa8b5d9"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-colorable",
+			"Rev": "40e4aedc8fabf8c23e040057540867186712faa5"
+		},
+		{
+			"ImportPath": "github.com/mgutz/ansi",
+			"Rev": "22ddafb24adc4786c83841aa3021349818c898e4"
+		},
+		{
+			"ImportPath": "github.com/mgutz/minimist",
+			"Rev": "e3e5af13ccefb15bcf80187ae6879fcc99984fc9"
+		},
+		{
+			"ImportPath": "github.com/mgutz/str",
+			"Comment": "1.1.0-4-g968bf66",
+			"Rev": "968bf66e3da857419e4f6e71b2d5c9ae95682dc4"
+		},
+		{
+			"ImportPath": "github.com/mgutz/to",
+			"Rev": "d72775a547168f5dae1b0f0acc1a31da7e32f779"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/ssh/terminal",
+			"Comment": "null-231",
+			"Rev": "88f995681294397936c136182f54e1f6891db323"
+		},
+		{
+			"ImportPath": "gopkg.in/godo.v1",
+			"Comment": "v1.4.5",
+			"Rev": "60979dc29b693e86b330512ce0a00f77856d5dd3"
+		}
+	]
+}
