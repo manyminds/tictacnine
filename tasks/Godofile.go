@@ -19,7 +19,9 @@ func tasks(p *godo.Project) {
 
 	p.Task("frontend", godo.D{}, func() error {
 		godo.Bash("mkdir -p frontend/css/dist/octicons")
-		return godo.Run("cp -r bower_components/octicons/octicons/ frontend/css/dist/octicons/")
+		godo.Bash("mkdir -p frontend/css/dist/bootstrap")
+		godo.Bash("cp bower_components/bootstrap/dist/css/bootstrap.min.css frontend/css/dist/bootstrap/")
+		return godo.Bash("cp -r bower_components/octicons/octicons/ frontend/css/dist/octicons/")
 	})
 
 	p.Task("backend", godo.D{"frontend", "build"}, func() {

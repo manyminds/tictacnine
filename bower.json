@@ -1,6 +1,7 @@
 {
-  "name" : "tictacnine",
+  "name": "tictacnine",
   "dependencies": {
-    "octicons": "*"
+    "octicons": "*",
+    "bootstrap": "~3.3.5"
   }
 }
