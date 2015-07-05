@@ -12,7 +12,12 @@ $.fn.tictacnine = function() {
 
         setContent : function(x, y, text) {
           var selector = '[data-pos-x="'+x+'"][data-pos-y="'+y+'"]';
-          container.find(selector).attr('data-value', text); 
+          field = container.find(selector); 
+          if (!field) {
+            throw "field not found";
+          }
+
+          field.attr('data-value', text); 
         }
       };
       
@@ -22,9 +27,7 @@ $.fn.tictacnine = function() {
       return internalGame; 
     }(container);
 
-    console.log(game); 
     game.setContent(0, 0, 'x'); 
     game.setContent(1, 1, 'o'); 
-  
   }); 
 };
