@@ -14,3 +14,18 @@
 .table>tbody>tr>td.field-inner.active {
   cursor: pointer; 
 }
+
+[data-value="x"] {
+  color: blue; 
+}
+
+[data-value="x"]:after {
+  content: 'X'; 
+}
+[data-value="o"] {
+  color: red; 
+}
+
+[data-value="o"]:after {
+  content: 'O'; 
+}
