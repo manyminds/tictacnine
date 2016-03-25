@@ -5,6 +5,17 @@ import (
 	"fmt"
 )
 
+var winLines = [...][3]int{
+	[3]int{0, 4, 8},
+	[3]int{0, 1, 2},
+	[3]int{0, 3, 6},
+	[3]int{1, 4, 7},
+	[3]int{2, 5, 8},
+	[3]int{2, 4, 6},
+	[3]int{3, 4, 5},
+	[3]int{6, 7, 8},
+}
+
 //Board the game board
 type Board struct {
 	data [9]PlaceAndWinable
