@@ -59,6 +59,18 @@ var winCircle = [...]move{
 	move{0, 1, 0, 2, MoveCircle},
 }
 
+var botSequence = [...]move{
+	move{1, 1, 1, 2, MoveCircle},
+	move{1, 2, 1, 0, MoveCross},
+	move{1, 0, 1, 2, MoveCircle},
+	move{1, 2, 0, 1, MoveCross},
+	move{0, 1, 0, 0, MoveCircle},
+	move{0, 0, 2, 2, MoveCross},
+	move{2, 2, 0, 0, MoveCircle},
+	move{0, 0, 1, 1, MoveCross},
+	move{1, 1, 1, 1, MoveCircle},
+}
+
 var _ = Describe("Game", func() {
 	Context("Test Game Code", func() {
 		var (
@@ -87,6 +99,18 @@ var _ = Describe("Game", func() {
 			}
 
 			Expect(board.GetWinner()).To(Equal(MoveCircle))
+		})
+
+		It("replay bot sequence to reproduce error", func() {
+			board := game.Board()
+			for _, m := range botSequence {
+				err := board.PutStone(m.fx, m.fy, m.x, m.y, m.m)
+				Expect(err).ToNot(HaveOccurred())
+			}
+
+			err := board.PutStone(1, 1, 2, 1, MoveCross)
+
+			Expect(err).ToNot(HaveOccurred())
 		})
 
 		It("cant move into full field", func() {
@@ -120,6 +144,22 @@ var _ = Describe("Game", func() {
 
 				Expect(err).ToNot(HaveOccurred())
 			}
+		})
+
+		It("will fail if same color twice", func() {
+			board := game.Board()
+			err := board.PutStone(1, 1, 2, 1, MoveCircle)
+			Expect(err).ToNot(HaveOccurred())
+			err = board.PutStone(2, 1, 2, 0, MoveCircle)
+			Expect(err).To(HaveOccurred())
+		})
+
+		It("will fail if play is invalid", func() {
+			board := game.Board()
+			err := board.PutStone(1, 1, 2, 1, MoveCircle)
+			Expect(err).ToNot(HaveOccurred())
+			err = board.PutStone(0, 1, 2, 0, MoveCross)
+			Expect(err).To(HaveOccurred())
 		})
 
 		It("validate start field", func() {

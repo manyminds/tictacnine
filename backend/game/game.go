@@ -26,14 +26,6 @@ type Winable interface {
 	GetWinner() Move
 }
 
-//Player interface for playas
-type Player interface {
-	GetNextMove() (x, y int, hasMove bool)
-}
-
-type randomPlayer struct {
-}
-
 type ticTacNineGame struct {
 	b *Board
 }

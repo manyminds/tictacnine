@@ -21,6 +21,16 @@ type Board struct {
 	data [9]PlaceAndWinable
 	lastMoveX,
 	lastMoveY int
+	lastMoveColor Move
+}
+
+func (b Board) IsFull() bool {
+	for _, f := range b.data {
+		if !f.IsFull() {
+			return false
+		}
+	}
+	return true
 }
 
 //GetAllowedFields returns all allowed fields to play
@@ -109,14 +119,22 @@ func (b *Board) PutStone(fx, fy, x, y int, m Move) error {
 		return errors.New("fy out of bounds")
 	}
 
+	if b.lastMoveColor == m {
+		return errors.New("invalid color to play")
+	}
+
 	index := fx + (fy * 3)
 	allowedFields := b.GetAllowedFields()
-	b.lastMoveX = x
-	b.lastMoveY = y
-
 	for _, f := range allowedFields {
 		if f == index {
-			return b.data[index].PutStone(x, y, m)
+			err := b.data[index].PutStone(x, y, m)
+			if err == nil {
+				b.lastMoveX = x
+				b.lastMoveY = y
+				b.lastMoveColor = m
+			}
+
+			return err
 		}
 	}
 
