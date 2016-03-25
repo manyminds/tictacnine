@@ -2,7 +2,7 @@ package game
 
 import (
 	"errors"
-	"fmt"
+	"log"
 )
 
 //Move to lay a stone
@@ -55,61 +55,14 @@ type Placeable interface {
 type PlaceAndWinable interface {
 	Placeable
 	Winable
+	IsFull() bool
 }
 
-//Winable if a board is winnable
+//Winable interface to
 type Winable interface {
 	HasWinner() bool
 	GetWinner() Move
 }
-
-//Board the game board
-type Board struct {
-	data [9]PlaceAndWinable
-}
-
-func (b Board) String() string {
-	result := "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n"
-	variables := []interface{}{}
-
-	for _, field := range b.data {
-		fieldString := ""
-		for y := 0; y < 3; y++ {
-			fieldString += "|"
-			for x := 0; x < 3; x++ {
-				fieldString += field.GetStone(x, y).String()
-				fieldString += "|"
-			}
-
-			fieldString += "\n"
-		}
-
-		if field.HasWinner() {
-			fieldString = fieldString[:len(fieldString)-1]
-			fieldString += fmt.Sprintf(" => [%s] \n", field.GetWinner())
-		}
-
-		variables = append(variables, fieldString)
-	}
-
-	return fmt.Sprintf(result, variables...)
-}
-
-//NewBoard initialize a new game board
-func NewBoard() *Board {
-	return &Board{data: [9]PlaceAndWinable{
-		&area{},
-		&area{},
-		&area{},
-		&area{},
-		&area{},
-		&area{},
-		&area{},
-		&area{},
-		&area{},
-	}}
-}
-
 type area struct {
 	field  [9]Move
 	winner Move
@@ -118,52 +71,6 @@ type area struct {
 func (a area) GetStone(x, y int) Move {
 	index := x + (y * 3)
 	return a.field[index]
-}
-
-//HasWinner bool
-func (b Board) HasWinner() bool {
-	for _, line := range winLines {
-		if b.data[line[0]].GetWinner() == MoveNone {
-			continue // one field not placed yet
-		}
-
-		if b.data[line[0]].GetWinner() == b.data[line[1]].GetWinner() &&
-			b.data[line[1]].GetWinner() == b.data[line[2]].GetWinner() {
-			return true
-		}
-	}
-
-	return false
-}
-
-//GetWinner for the whole board
-func (b Board) GetWinner() Move {
-	for _, line := range winLines {
-		if b.data[line[0]].GetWinner() == MoveNone {
-			continue // one field not placed yet
-		}
-
-		if b.data[line[0]].GetWinner() == b.data[line[1]].GetWinner() &&
-			b.data[line[1]].GetWinner() == b.data[line[2]].GetWinner() {
-			return b.data[line[0]].GetWinner()
-		}
-	}
-
-	return MoveNone
-}
-
-//PutStone for the whole board
-func (b *Board) PutStone(fx, fy, x, y int, m Move) error {
-	if fx < 0 || fx >= 3 {
-		return errors.New("fx out of bounds")
-	}
-
-	if fy < 0 || fy >= 3 {
-		return errors.New("fy out of bounds")
-	}
-
-	index := fx + (fy * 3)
-	return b.data[index].PutStone(x, y, m)
 }
 
 //PutStone adds a stone if possible and saves the winner
@@ -188,6 +95,16 @@ func (a *area) PutStone(x, y int, m Move) error {
 	}
 
 	return nil
+}
+
+func (a area) IsFull() bool {
+	for _, m := range a.field {
+		if m == MoveNone {
+			return false
+		}
+	}
+
+	return true
 }
 
 func (a area) GetWinner() Move {
@@ -235,5 +152,10 @@ func (t ticTacNineGame) Board() *Board {
 
 //NewTicTacNineGame returns a new instance of tic tac nine
 func NewTicTacNineGame() Game {
-	return &ticTacNineGame{b: NewBoard()}
+	b, err := NewBoard(1, 1)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return &ticTacNineGame{b: b}
 }

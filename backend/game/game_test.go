@@ -21,19 +21,31 @@ var _ = Describe("Game", func() {
 			Expect(game.Board().HasWinner()).To(BeFalse())
 		})
 
-		It("should calculate the winner correctly", func() {
+		It("validate start field", func() {
 			board := game.Board()
-			for i := 0; i < 3; i++ {
-				Expect(board.PutStone(i, 0, 1, 1, MoveCircle)).ToNot(HaveOccurred())
-				Expect(game.Board().HasWinner()).To(BeFalse())
+			err := board.PutStone(1, 1, 1, 1, MoveCircle)
+			Expect(err).ToNot(HaveOccurred())
 
-				Expect(board.PutStone(i, 0, 1, 0, MoveCircle)).ToNot(HaveOccurred())
-				Expect(game.Board().HasWinner()).To(BeFalse())
+			err = board.PutStone(0, 1, 1, 1, MoveCircle)
+			Expect(err).To(HaveOccurred())
 
-				Expect(board.PutStone(i, 0, 1, 2, MoveCircle)).ToNot(HaveOccurred())
-				//after the last field the board should be won
-				Expect(game.Board().HasWinner()).To(Equal(i == 2))
-			}
+			err = board.PutStone(0, 0, 1, 1, MoveCircle)
+			Expect(err).To(HaveOccurred())
+
+			err = board.PutStone(2, 1, 1, 1, MoveCircle)
+			Expect(err).To(HaveOccurred())
+
+			err = board.PutStone(1, 2, 1, 1, MoveCircle)
+			Expect(err).To(HaveOccurred())
+
+			err = board.PutStone(2, 2, 1, 1, MoveCircle)
+			Expect(err).To(HaveOccurred())
+
+			err = board.PutStone(0, 2, 1, 1, MoveCircle)
+			Expect(err).To(HaveOccurred())
+
+			err = board.PutStone(2, 0, 1, 1, MoveCircle)
+			Expect(err).To(HaveOccurred())
 		})
 	})
 })
