@@ -1,8 +1,6 @@
 package game_test
 
 import (
-	"fmt"
-
 	. "github.com/manyminds/tictacnine/backend/game"
 
 	. "github.com/onsi/ginkgo"
@@ -25,17 +23,17 @@ var _ = Describe("Game", func() {
 
 		It("should calculate the winner correctly", func() {
 			board := game.Board()
-			Expect(board.PutStone(0, 0, 1, 1, MoveCircle)).ToNot(HaveOccurred())
-			fmt.Printf("%s\n", board)
-			Expect(game.Board().HasWinner()).To(BeFalse())
+			for i := 0; i < 3; i++ {
+				Expect(board.PutStone(i, 0, 1, 1, MoveCircle)).ToNot(HaveOccurred())
+				Expect(game.Board().HasWinner()).To(BeFalse())
 
-			Expect(board.PutStone(0, 0, 1, 0, MoveCircle)).ToNot(HaveOccurred())
-			fmt.Printf("%s\n", board)
-			Expect(game.Board().HasWinner()).To(BeFalse())
+				Expect(board.PutStone(i, 0, 1, 0, MoveCircle)).ToNot(HaveOccurred())
+				Expect(game.Board().HasWinner()).To(BeFalse())
 
-			Expect(board.PutStone(0, 0, 1, 2, MoveCircle)).ToNot(HaveOccurred())
-			fmt.Printf("%s\n", board)
-			Expect(game.Board().HasWinner()).To(BeFalse())
+				Expect(board.PutStone(i, 0, 1, 2, MoveCircle)).ToNot(HaveOccurred())
+				//after the last field the board should be won
+				Expect(game.Board().HasWinner()).To(Equal(i == 2))
+			}
 		})
 	})
 })
