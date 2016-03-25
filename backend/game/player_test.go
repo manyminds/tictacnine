@@ -30,7 +30,7 @@ var _ = Describe("Player", func() {
 			draws := 0
 			winX := 0
 			winO := 0
-			for i := 0; i < 100; i++ {
+			for i := 0; i < 10; i++ {
 				game = NewTicTacNineGame()
 				b := game.Board()
 				circle := i%2 == 0
@@ -53,8 +53,8 @@ var _ = Describe("Player", func() {
 					draws++
 				}
 
+				fmt.Printf("Draws %d, AI: %d, Random: %d\n", draws, winX, winO)
 			}
-			fmt.Printf("Draws %d, X: %d, O: %d\n", draws, winX, winO)
 		})
 	})
 })

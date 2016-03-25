@@ -7,7 +7,9 @@ import (
 )
 
 //DefaultStrength of the ai
-const DefaultStrength = 6
+const DefaultStrength = 5
+
+const StrongStrength = 6
 
 type aiPlayer struct {
 	seed     io.Reader
@@ -66,15 +68,15 @@ func findBestMove(
 	board := b.Copy()
 	err := board.PutStone(move.fx, move.fy, move.x, move.y, color)
 	if err != nil {
-		return 1
+		return rating + 1
 	}
 
 	if board.HasWinner() {
 		if board.GetWinner() != winColor {
-			return -333
+			return rating - 333
 		}
 
-		return 1000
+		return rating + 1000
 	}
 
 	if level >= maxLevel {
@@ -82,7 +84,7 @@ func findBestMove(
 	}
 
 	if board.IsFull() {
-		return 0
+		return rating
 	}
 
 	nextColor := MoveCircle
@@ -103,6 +105,14 @@ func findBestMove(
 				if thisRating > bestRating {
 					bestRating = thisRating
 				}
+			}
+		}
+	}
+
+	for _, f := range b.data {
+		if f.HasWinner() {
+			if f.GetWinner() != winColor {
+				bestRating -= 100
 			}
 		}
 	}
