@@ -7,6 +7,15 @@ type area struct {
 	winner Move
 }
 
+func (a area) Copy() *area {
+	c := area{}
+	for k, v := range a.field {
+		c.field[k] = v
+	}
+	c.winner = a.winner
+	return &c
+}
+
 func (a area) GetStone(x, y int) Move {
 	index := x + (y * 3)
 	return a.field[index]

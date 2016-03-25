@@ -3,6 +3,7 @@ package game
 import (
 	"crypto/rand"
 	"io"
+	"log"
 	"math/big"
 )
 
@@ -39,6 +40,7 @@ func (r randomPlayer) NextMove(b *Board) {
 
 			err := b.PutStone(fx, fy, x, y, r.color)
 			if err == nil {
+				log.Printf("Random auf [%d|%d](%d|%d) => %s\n", fx, fy, x, y, r.color)
 				return
 			}
 			array = append(array[:i], array[i+1:]...)

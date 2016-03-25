@@ -24,6 +24,20 @@ type Board struct {
 	lastMoveColor Move
 }
 
+func (b Board) Copy() Board {
+	b2, _ := NewBoard(b.lastMoveX, b.lastMoveY)
+	for k, v := range b.data {
+		if a, ok := v.(*area); ok {
+			b2.data[k] = a.Copy()
+		} else {
+			b2.data[k] = v
+		}
+	}
+
+	b2.lastMoveColor = b.lastMoveColor
+	return *b2
+}
+
 func (b Board) IsFull() bool {
 	for _, f := range b.data {
 		if !f.IsFull() {
