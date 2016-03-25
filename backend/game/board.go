@@ -99,17 +99,17 @@ func (b *Board) PutStone(fx, fy, x, y int, m Move) error {
 	}
 
 	index := fx + (fy * 3)
+	allowedFields := b.GetAllowedFields()
 	b.lastMoveX = x
 	b.lastMoveY = y
 
-	allowedFields := b.GetAllowedFields()
 	for _, f := range allowedFields {
 		if f == index {
 			return b.data[index].PutStone(x, y, m)
 		}
 	}
 
-	return errors.New("Invalid field to play in")
+	return errors.New("invalid field to play in")
 }
 
 //NewBoard initialize a new game board
