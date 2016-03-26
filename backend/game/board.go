@@ -24,6 +24,7 @@ type Board struct {
 	lastMoveColor Move
 }
 
+//Copy get a representation of the Board
 func (b Board) Copy() Board {
 	b2, _ := NewBoard(b.lastMoveX, b.lastMoveY)
 	for k, v := range b.data {
@@ -38,6 +39,7 @@ func (b Board) Copy() Board {
 	return *b2
 }
 
+//IsFull wether the board is full or not
 func (b Board) IsFull() bool {
 	for _, f := range b.data {
 		if !f.IsFull() {
@@ -121,6 +123,31 @@ func (b Board) GetWinner() Move {
 	}
 
 	return MoveNone
+}
+
+//CanPutStone for the whole board
+func (b *Board) CanPutStone(fx, fy, x, y int, m Move) bool {
+	if fx < 0 || fx >= 3 {
+		return false
+	}
+
+	if fy < 0 || fy >= 3 {
+		return false
+	}
+
+	if b.lastMoveColor == m {
+		return false
+	}
+
+	index := fx + (fy * 3)
+	allowedFields := b.GetAllowedFields()
+	for _, f := range allowedFields {
+		if f == index {
+			return b.data[index].CanPutStone(x, y, m)
+		}
+	}
+
+	return false
 }
 
 //PutStone for the whole board

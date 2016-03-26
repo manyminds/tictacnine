@@ -21,6 +21,23 @@ func (a area) GetStone(x, y int) Move {
 	return a.field[index]
 }
 
+func (a *area) CanPutStone(x, y int, m Move) bool {
+	if x < 0 || x >= 3 {
+		return false
+	}
+
+	if y < 0 || y >= 3 {
+		return false
+	}
+
+	index := x + (y * 3)
+	if a.field[index] != MoveNone {
+		return false
+	}
+
+	return true
+}
+
 //PutStone adds a stone if possible and saves the winner
 //if the field now has a winner and did not got one previously
 func (a *area) PutStone(x, y int, m Move) error {

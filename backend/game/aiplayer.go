@@ -4,12 +4,11 @@ import (
 	"crypto/rand"
 	"io"
 	"log"
+	"math/big"
 )
 
 //DefaultStrength of the ai
-const DefaultStrength = 5
-
-const StrongStrength = 6
+const DefaultStrength = 4
 
 type aiPlayer struct {
 	seed     io.Reader
@@ -22,12 +21,10 @@ func getAllPossibleMoves(b Board, c Move) []Position {
 	for _, f := range b.GetAllowedFields() {
 		for x := 0; x < 3; x++ {
 			for y := 0; y < 3; y++ {
-				copyBoard := b.Copy()
 				fx := f % 3
 				fy := f / 3
 
-				err := copyBoard.PutStone(fx, fy, x, y, c)
-				if err == nil {
+				if b.CanPutStone(fx, fy, x, y, c) {
 					positions = append(positions, Position{fx, fy, x, y})
 				}
 			}
@@ -39,14 +36,17 @@ func getAllPossibleMoves(b Board, c Move) []Position {
 
 func (r aiPlayer) NextMove(b *Board) {
 	rating := 0
-	allMoves := getAllPossibleMoves(b.Copy(), r.color)
+	allMoves := getAllPossibleMoves(*b, r.color)
 	if len(allMoves) == 0 {
 		panic("no moves left")
 	}
 
 	bestMove := allMoves[0]
 	for _, possibleMove := range allMoves {
-		thisRating := findBestMove(b.Copy(), possibleMove, r.color, r.color, 0, 0, r.strength)
+		n, _ := rand.Int(r.seed, big.NewInt(int64(10)))
+		startValue := int(n.Int64())
+
+		thisRating := findBestMove(*b, possibleMove, r.color, r.color, startValue, 0, r.strength)
 		if thisRating > rating {
 			bestMove = possibleMove
 			rating = thisRating
@@ -66,6 +66,18 @@ func findBestMove(
 	maxLevel int,
 ) int {
 	board := b.Copy()
+	enemyFieldsWon := 0
+	ownFieldsWon := 0
+	for _, f := range board.data {
+		if f.HasWinner() {
+			if f.GetWinner() == winColor {
+				ownFieldsWon++
+			} else {
+				enemyFieldsWon++
+			}
+		}
+	}
+
 	err := board.PutStone(move.fx, move.fy, move.x, move.y, color)
 	if err != nil {
 		return rating + 1
@@ -81,10 +93,6 @@ func findBestMove(
 
 	if level >= maxLevel {
 		return level
-	}
-
-	if board.IsFull() {
-		return rating
 	}
 
 	nextColor := MoveCircle
@@ -109,7 +117,9 @@ func findBestMove(
 		}
 	}
 
-	for _, f := range b.data {
+	enemyFieldsWonAfter := 0
+	ownFieldsWonAfter := 0
+	for _, f := range board.data {
 		if f.HasWinner() {
 			if f.GetWinner() != winColor {
 				bestRating -= 100
@@ -117,11 +127,15 @@ func findBestMove(
 		}
 	}
 
-	if color != winColor {
-		return bestRating - rating
+	if enemyFieldsWon < enemyFieldsWonAfter {
+		rating--
 	}
 
-	return bestRating + rating
+	if ownFieldsWon < ownFieldsWonAfter {
+		rating++
+	}
+
+	return rating + bestRating
 }
 
 //NewAIPlayer returns a brute force intelligent enemy
