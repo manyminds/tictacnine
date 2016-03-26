@@ -1,5 +1,39 @@
-$.fn.tictacnine = function() {
+$.fn.tictacnine = function(options) {
   $(document).ready(function() {
+    if (typeof options == 'object') {
+      var url = options.endpoint;
+      if (!url) {
+        alert("endpoint not specified");
+      }
+    
+      var userColor = options.userColor;
+      if (userColor != 'X') {
+        userColor = 'O';
+      } else {
+        userColor = 'X';
+      }
+
+      var aiStrength = options.aiStrength; 
+    
+      if (! Number.isInteger(aiStrength)) {
+        aiStrength = 5;
+      }
+
+      if (aiStrength >= 10 || aiStrength <= 1) {
+        aiStrength = 6;
+      }
+
+      console.log("Settings: ");
+      console.log({
+        'aiStrength' : aiStrength, 
+        'userColor' : userColor,
+        'endpoint' : url
+      });
+
+      $.get("/ai/init", function(data) {
+      })
+}
+
     var container = $(this); 
     var board = function(container) {
       var internalGame = {
@@ -26,7 +60,7 @@ $.fn.tictacnine = function() {
             throw "field not found";
           }
 
-          field.attr('data-value', text); 
+          field.attr('data-value', text);
         }, 
 
         CalcFieldWon : function(x, y) {
@@ -160,10 +194,6 @@ $.fn.tictacnine = function() {
           activePlayer = playerOne; 
           var b = board(container);
 
-          $.get("/game/init", function(data) {
-
-          })
-
           container.find('.field-inner').click (function() {
             var x = $(this).data('pos-x'); 
             var y = $(this).data('pos-y');
@@ -181,9 +211,18 @@ $.fn.tictacnine = function() {
             }
 
             if (activePlayer === playerOne) {
-              b.SetContent(x,y, 'x');              
-              activePlayer = playerTwo; 
+              $.post("/ai/putStone", {'x' : x, 'y': y, 'move': 'x'}, function(data) {
+                  b.SetContent(x,y, 'x');              
+                  activePlayer = playerTwo;
+                  $.get("/ai/getStone", function(data) {
+                    b.SetContent(data.x, data.y, 'o'); 
+                    b.SetField(data.x %3 , data.y%3, 'o'); 
+                    activePlayer = playerOne;
+                  })
+              })
             } else {
+              alert("ai turn"); 
+              return;
               b.SetContent(x,y, 'o');              
               activePlayer = playerOne; 
             }

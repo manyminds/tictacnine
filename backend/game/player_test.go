@@ -21,8 +21,11 @@ var _ = Describe("Player", func() {
 
 	BeforeEach(func() {
 		game = NewTicTacNineGame()
-		playerCircle = NewRandomPlayer(MoveCircle)
-		playerCross = NewAIPlayer(MoveCross, DefaultStrength)
+		/*
+		 *playerCircle = NewRandomPlayer(MoveCircle)
+		 */
+		playerCircle = NewAIPlayer(MoveCircle, DefaultStrength)
+		playerCross = NewAIPlayer(MoveCross, DefaultStrength+1)
 		log.SetOutput(ioutil.Discard)
 	})
 
@@ -36,7 +39,7 @@ var _ = Describe("Player", func() {
 
 			start := time.Now()
 			startColor := false
-			for i := 0; i < 50; i++ {
+			for i := 0; i < 250; i++ {
 				game = NewTicTacNineGame()
 				b := game.Board()
 				circle := i%2 == 0
@@ -69,7 +72,7 @@ var _ = Describe("Player", func() {
 				}
 
 				fmt.Printf(
-					"Draws %d, AI (X/weak): [%d](%d/%d), Random (O): [%d](%d/%d)\nTime Elapsed %s\n",
+					"Draws %d, AI (X/stronger): [%d](%d/%d), AI (O/weaker): [%d](%d/%d)\nTime Elapsed %s\n",
 					draws, winXs+winXn, winXs, winXn, winOs+winOn, winOs, winOn, time.Now().Sub(start),
 				)
 			}

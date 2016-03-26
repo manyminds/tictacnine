@@ -6,6 +6,12 @@ body {
   margin-top: 10px; 
 }
 
+#loading {
+  position: absolute; 
+  left: 50%; 
+  top: 50%; 
+}
+
 .won-x {
   font-size: 250px; 
   position: absolute; 

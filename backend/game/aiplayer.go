@@ -34,7 +34,7 @@ func getAllPossibleMoves(b Board, c Move) []Position {
 	return positions
 }
 
-func (r aiPlayer) NextMove(b *Board) {
+func (r aiPlayer) NextMove(b *Board) Position {
 	rating := 0
 	allMoves := getAllPossibleMoves(*b, r.color)
 	if len(allMoves) == 0 {
@@ -55,6 +55,7 @@ func (r aiPlayer) NextMove(b *Board) {
 
 	log.Printf("AI auf [%d|%d](%d|%d) => %s\n", bestMove.fx, bestMove.fy, bestMove.x, bestMove.y, r.color)
 	b.PutStone(bestMove.fx, bestMove.fy, bestMove.x, bestMove.y, r.color)
+	return bestMove
 }
 func findBestMove(
 	b Board,
@@ -136,6 +137,10 @@ func findBestMove(
 	}
 
 	return rating + bestRating
+}
+
+func (a *aiPlayer) SetColor(c Move) {
+	a.color = c
 }
 
 //NewAIPlayer returns a brute force intelligent enemy

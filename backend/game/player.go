@@ -12,9 +12,18 @@ type Position struct {
 	fx, fy, x, y int
 }
 
+func (p Position) Field() (int, int) {
+	return p.fx, p.fy
+}
+
+func (p Position) Position() (int, int) {
+	return p.x, p.y
+}
+
 //Player interface for playas
 type Player interface {
-	NextMove(b *Board)
+	NextMove(b *Board) Position
+	SetColor(color Move)
 }
 
 type randomPlayer struct {
@@ -22,7 +31,7 @@ type randomPlayer struct {
 	color Move
 }
 
-func (r randomPlayer) NextMove(b *Board) {
+func (r randomPlayer) NextMove(b *Board) Position {
 	array := []int{0, 1, 2, 3, 4, 5, 6, 7, 8}
 
 	for _, field := range b.GetAllowedFields() {
@@ -41,7 +50,7 @@ func (r randomPlayer) NextMove(b *Board) {
 			err := b.PutStone(fx, fy, x, y, r.color)
 			if err == nil {
 				log.Printf("Random auf [%d|%d](%d|%d) => %s\n", fx, fy, x, y, r.color)
-				return
+				return Position{fx: fx, fy: fy, x: x, y: y}
 			}
 			array = append(array[:i], array[i+1:]...)
 		}
@@ -49,6 +58,10 @@ func (r randomPlayer) NextMove(b *Board) {
 	}
 
 	panic("no move left")
+}
+
+func (r *randomPlayer) SetColor(c Move) {
+	r.color = c
 }
 
 //NewRandomPlayer returns a stupid simple random enemy

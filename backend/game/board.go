@@ -24,6 +24,18 @@ type Board struct {
 	lastMoveColor Move
 }
 
+func (b Board) GetNextTurn() Move {
+	if b.lastMoveColor == MoveCircle {
+		return MoveCross
+	}
+
+	if b.lastMoveColor == MoveNone {
+		return MoveCross
+	}
+
+	return MoveCircle
+}
+
 //Copy get a representation of the Board
 func (b Board) Copy() Board {
 	b2, _ := NewBoard(b.lastMoveX, b.lastMoveY)
