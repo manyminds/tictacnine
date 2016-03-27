@@ -25,10 +25,19 @@ var dataContainer = data{}
 func initGame(w http.ResponseWriter, r *http.Request) {
 	dataContainer.Lock()
 	defer dataContainer.Unlock()
+	strength := r.FormValue("aiStrength")
+	level, err := strconv.Atoi(strength)
+	if err != nil {
+		level = 5
+	}
+
+	log.Printf("Initializing AI with Level: %d\n", level)
+
 	dataContainer.g = game.NewTicTacNineGame()
-	dataContainer.player = game.NewAIPlayer(game.MoveCircle, 7)
+	dataContainer.player = game.NewAIPlayer(game.MoveCircle, level)
 	data := map[string]interface{}{
 		"success": true,
+		"level":   level,
 	}
 	respondWith(data, w)
 }
@@ -50,15 +59,16 @@ func getAiMove(w http.ResponseWriter, r *http.Request) {
 	px, py := m.Position()
 	dataContainer.g.Board().PutStone(fx, fy, px, py, game.MoveCircle)
 
+	result := map[string]interface{}{}
+
 	if dataContainer.g.Board().HasWinner() {
-		log.Printf("%s\n", dataContainer.g.Board())
-		panic("WINNER")
+		result["winner"] = dataContainer.g.Board().GetWinner().String()
 	}
 
-	respondWith(map[string]interface{}{
-		"x": fx*3 + px,
-		"y": fy*3 + py,
-	}, w)
+	result["x"] = fx*3 + px
+	result["y"] = fy*3 + py
+
+	respondWith(result, w)
 }
 
 func putStone(w http.ResponseWriter, r *http.Request) {

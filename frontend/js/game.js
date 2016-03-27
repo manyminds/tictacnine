@@ -30,8 +30,10 @@ $.fn.tictacnine = function(options) {
         'endpoint' : url
       });
 
-      $.get("/ai/init", function(data) {
-      })
+      $.post("/ai/init",{
+        'aiStrength' : aiStrength, 
+      },
+      function(data) {})
 }
 
     var container = $(this); 
@@ -214,20 +216,69 @@ $.fn.tictacnine = function(options) {
               $.post("/ai/putStone", {'x' : x, 'y': y, 'move': 'x'}, function(data) {
                   b.SetContent(x,y, 'x');              
                   activePlayer = playerTwo;
+                  var targetFieldX = x%3; 
+                  var targetFieldY = y%3; 
+             
+            for(var fx = 0; fx < 3; fx++) {
+              for(var fy = 0; fy < 3; fy++) {
+                b.CalcFieldWon(fx, fy);  
+              }
+            }
+                  if (! b.IsFullField(targetFieldX, targetFieldY)) {
+                    b.SetField(targetFieldX, targetFieldY, true); 
+                  } else {
+                    for (var fx = 0; fx < 3; fx++) {
+                      for(var fy = 0; fy < 3; fy++) {
+                        if (! b.IsFullField(fx, fy)) {
+                          b.SetField(fx, fy, false);  
+                        }
+                      }
+                    }
+                  }
+
+                  
+                  
                   $.get("/ai/getStone", function(data) {
-                    b.SetContent(data.x, data.y, 'o'); 
-                    b.SetField(data.x %3 , data.y%3, 'o'); 
+                          b.SetContent(data.x, data.y, 'o'); 
+                    var aix = data.x %3; 
+                    var aiy = data.y %3; 
+                    b.CalcFieldWon(aix,aiy);  
                     activePlayer = playerOne;
-                  })
+                  if (! b.IsFullField(aix,aiy)) {
+                    b.SetField(aix,aiy, true); 
+                  } else {
+                    for (var fx = 0; fx < 3; fx++) {
+                      for(var fy = 0; fy < 3; fy++) {
+                        if (! b.IsFullField(fx, fy)) {
+                          b.SetField(fx, fy, false);  
+                        }
+                      }
+                    }
+                  }
+   
+              for(var fx = 0; fx < 3; fx++) {
+                for(var fy = 0; fy < 3; fy++) {
+                  b.CalcFieldWon(fx, fy);  
+                }
+              }
+              if (data.winner) {
+                      confirm("Game Over! Winner: "+data.winner);
+                      location.reload();
+                      return
+               }
+                })
               })
             } else {
-              alert("ai turn"); 
+              alert("it is not your turn, please wait for the ai to play"); 
               return;
-              b.SetContent(x,y, 'o');              
-              activePlayer = playerOne; 
             }
+           
             
-            b.CalcFieldWon(fieldX, fieldY);  
+            for(var fx = 0; fx < 3; fx++) {
+              for(var fy = 0; fy < 3; fy++) {
+                b.CalcFieldWon(fx, fy);  
+              }
+            }
 
             var targetFieldX = x%3; 
             var targetFieldY = y%3; 

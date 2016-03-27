@@ -8,7 +8,7 @@ import (
 )
 
 //DefaultStrength of the ai
-const DefaultStrength = 4
+const DefaultStrength = 6
 
 type aiPlayer struct {
 	seed     io.Reader
@@ -38,6 +38,7 @@ func (r aiPlayer) NextMove(b *Board) Position {
 	rating := 0
 	allMoves := getAllPossibleMoves(*b, r.color)
 	if len(allMoves) == 0 {
+		log.Printf("%s\n", b.String())
 		panic("no moves left")
 	}
 
@@ -86,10 +87,10 @@ func findBestMove(
 
 	if board.HasWinner() {
 		if board.GetWinner() != winColor {
-			return rating - 333
+			return rating - 100000
 		}
 
-		return rating + 1000
+		return rating + 1000000
 	}
 
 	if level >= maxLevel {
@@ -119,26 +120,24 @@ func findBestMove(
 	}
 
 	enemyFieldsWonAfter := 0
-	ownFieldsWonAfter := 0
 	for _, f := range board.data {
 		if f.HasWinner() {
-			if f.GetWinner() != winColor {
-				bestRating -= 100
+			if f.GetWinner() != winColor && f.GetWinner() != MoveNone {
+				bestRating -= 400
+			} else if f.GetWinner() == winColor {
+				bestRating += 50
 			}
 		}
 	}
 
 	if enemyFieldsWon < enemyFieldsWonAfter {
-		rating--
-	}
-
-	if ownFieldsWon < ownFieldsWonAfter {
-		rating++
+		rating -= 100
 	}
 
 	return rating + bestRating
 }
 
+//SetColor to change the users move color
 func (a *aiPlayer) SetColor(c Move) {
 	a.color = c
 }
