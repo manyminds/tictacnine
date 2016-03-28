@@ -22,8 +22,27 @@ type Board struct {
 	lastMoveX,
 	lastMoveY int
 	lastMoveColor Move
+	moves         []Position
 }
 
+//Undo  reverrts the last move
+func (b *Board) Undo() {
+	if len(b.moves) == 0 {
+		return
+	}
+
+	move, moves := b.moves[len(b.moves)-1], b.moves[:len(b.moves)-1]
+
+	area := b.data[move.fx+(move.fy*3)]
+	area.RemoveStone(move.x, move.y)
+
+	b.moves = moves
+	b.lastMoveX = move.x
+	b.lastMoveY = move.y
+	b.lastMoveColor = move.color
+}
+
+//GetNextTurn returns hthe next color
 func (b Board) GetNextTurn() Move {
 	if b.lastMoveColor == MoveCircle {
 		return MoveCross
@@ -185,6 +204,7 @@ func (b *Board) PutStone(fx, fy, x, y int, m Move) error {
 				b.lastMoveX = x
 				b.lastMoveY = y
 				b.lastMoveColor = m
+				b.moves = append(b.moves, Position{fx: fx, fy: fy, x: x, y: y, color: m})
 			}
 
 			return err

@@ -10,12 +10,15 @@ import (
 //Position wrapper for one move
 type Position struct {
 	fx, fy, x, y int
+	color        Move
 }
 
+//Field returns the field position
 func (p Position) Field() (int, int) {
 	return p.fx, p.fy
 }
 
+//Position returns the position in a field
 func (p Position) Position() (int, int) {
 	return p.x, p.y
 }

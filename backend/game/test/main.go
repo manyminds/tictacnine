@@ -13,11 +13,11 @@ type ai struct {
 
 func main() {
 	g := game.NewTicTacNineGame()
-	playerCircle := game.NewRandomPlayer(game.MoveCircle)
 	/*
-	 *playerCircle := game.NewAIPlayer(game.MoveCircle, game.DefaultStrength)
+	 *playerCircle := game.NewRandomPlayer(game.MoveCircle)
 	 */
-	playerCross := game.NewAIPlayer(game.MoveCross, game.DefaultStrength+3)
+	playerCircle := game.NewAIPlayer(game.MoveCircle, 8)
+	playerCross := game.NewAIPlayer(game.MoveCross, 7)
 	/*
 	 *log.SetOutput(ioutil.Discard)
 	 */
@@ -29,7 +29,7 @@ func main() {
 
 	start := time.Now()
 	startColor := false
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 1; i++ {
 		g = game.NewTicTacNineGame()
 		b := g.Board()
 		circle := i%2 == 0
@@ -40,6 +40,7 @@ func main() {
 			} else {
 				playerCross.NextMove(b)
 			}
+
 			circle = !circle
 		}
 
@@ -60,6 +61,7 @@ func main() {
 			draws++
 		}
 
+		fmt.Printf("%s\n", b)
 		fmt.Printf(
 			"Draws %d, AI (X/stronger): [%d](%d/%d), AI (O/weaker): [%d](%d/%d)\nTime Elapsed %s\n",
 			draws, winXs+winXn, winXs, winXn, winOs+winOn, winOs, winOn, time.Now().Sub(start),

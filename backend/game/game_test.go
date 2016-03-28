@@ -85,6 +85,26 @@ var _ = Describe("Game", func() {
 			Expect(game.Board().HasWinner()).To(BeFalse())
 		})
 
+		It("can undo moves", func() {
+			board := game.Board()
+
+			for _, m := range baseOrder {
+				err := board.PutStone(m.fx, m.fy, m.x, m.y, m.m)
+				Expect(err).ToNot(HaveOccurred())
+			}
+
+			for range baseOrder {
+				board.Undo()
+			}
+
+			for _, m := range winCircle {
+				err := board.PutStone(m.fx, m.fy, m.x, m.y, m.m)
+				Expect(err).ToNot(HaveOccurred())
+			}
+
+			Expect(board.GetWinner()).To(Equal(MoveCircle))
+		})
+
 		It("will be won", func() {
 			board := game.Board()
 

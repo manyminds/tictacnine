@@ -99,8 +99,6 @@ func putStone(w http.ResponseWriter, r *http.Request) {
 	fx := posX / 3
 	fy := posY / 3
 
-	log.Printf("Field: (%d|%d) -> Stone (%d|%d)\n", tx, ty, fx, fy)
-
 	dataContainer.g.Board().PutStone(fx, fy, tx, ty, moveToPlay)
 }
 

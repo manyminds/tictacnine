@@ -38,6 +38,16 @@ func (a *area) CanPutStone(x, y int, m Move) bool {
 	return true
 }
 
+func (a *area) RemoveStone(x, y int) error {
+	index := x + (y * 3)
+	if a.field[index] == MoveNone {
+		return errors.New("No stone there")
+	}
+
+	a.field[index] = MoveNone
+	return nil
+}
+
 //PutStone adds a stone if possible and saves the winner
 //if the field now has a winner and did not got one previously
 func (a *area) PutStone(x, y int, m Move) error {
@@ -57,6 +67,10 @@ func (a *area) PutStone(x, y int, m Move) error {
 	a.field[index] = m
 	if a.winner == MoveNone && a.HasWinner() {
 		a.winner = m
+	}
+
+	if !a.HasWinner() {
+		a.winner = MoveNone
 	}
 
 	return nil

@@ -11,6 +11,7 @@ type Game interface {
 type Placeable interface {
 	PutStone(x, y int, m Move) error
 	GetStone(x, y int) Move
+	RemoveStone(x, y int) error
 	CanPutStone(x, y int, m Move) bool
 }
 

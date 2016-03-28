@@ -21,10 +21,10 @@ var _ = Describe("Player", func() {
 
 	BeforeEach(func() {
 		game = NewTicTacNineGame()
+		playerCircle = NewRandomPlayer(MoveCircle)
 		/*
-		 *playerCircle = NewRandomPlayer(MoveCircle)
+		 *playerCircle = NewAIPlayer(MoveCircle, DefaultStrength)
 		 */
-		playerCircle = NewAIPlayer(MoveCircle, DefaultStrength)
 		playerCross = NewAIPlayer(MoveCross, DefaultStrength+1)
 		log.SetOutput(ioutil.Discard)
 	})

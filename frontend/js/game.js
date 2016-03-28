@@ -19,7 +19,7 @@ $.fn.tictacnine = function(options) {
         aiStrength = 5;
       }
 
-      if (aiStrength >= 10 || aiStrength <= 1) {
+      if (aiStrength > 10 || aiStrength <= 1) {
         aiStrength = 6;
       }
 
