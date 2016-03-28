@@ -12,9 +12,14 @@
     <script type="text/javascript" src="js/dist/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript">
-      $('#field').tictacnine(); 
+      $('#field').tictacnine({
+        endpoint : '/ai/',
+        aiStrength: 8, 
+        userColor: 'X',
+      }); 
     </script>
   </head>
+
 
   <body>
     <div class="container" id="field">

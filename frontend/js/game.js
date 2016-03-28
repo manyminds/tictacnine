@@ -1,5 +1,41 @@
-$.fn.tictacnine = function() {
+$.fn.tictacnine = function(options) {
   $(document).ready(function() {
+    if (typeof options == 'object') {
+      var url = options.endpoint;
+      if (!url) {
+        alert("endpoint not specified");
+      }
+    
+      var userColor = options.userColor;
+      if (userColor != 'X') {
+        userColor = 'O';
+      } else {
+        userColor = 'X';
+      }
+
+      var aiStrength = options.aiStrength; 
+    
+      if (! Number.isInteger(aiStrength)) {
+        aiStrength = 5;
+      }
+
+      if (aiStrength > 10 || aiStrength <= 1) {
+        aiStrength = 6;
+      }
+
+      console.log("Settings: ");
+      console.log({
+        'aiStrength' : aiStrength, 
+        'userColor' : userColor,
+        'endpoint' : url
+      });
+
+      $.post("/ai/init",{
+        'aiStrength' : aiStrength, 
+      },
+      function(data) {})
+}
+
     var container = $(this); 
     var board = function(container) {
       var internalGame = {
@@ -26,7 +62,7 @@ $.fn.tictacnine = function() {
             throw "field not found";
           }
 
-          field.attr('data-value', text); 
+          field.attr('data-value', text);
         }, 
 
         CalcFieldWon : function(x, y) {
@@ -160,10 +196,6 @@ $.fn.tictacnine = function() {
           activePlayer = playerOne; 
           var b = board(container);
 
-          $.get("/game/init", function(data) {
-
-          })
-
           container.find('.field-inner').click (function() {
             var x = $(this).data('pos-x'); 
             var y = $(this).data('pos-y');
@@ -181,14 +213,72 @@ $.fn.tictacnine = function() {
             }
 
             if (activePlayer === playerOne) {
-              b.SetContent(x,y, 'x');              
-              activePlayer = playerTwo; 
-            } else {
-              b.SetContent(x,y, 'o');              
-              activePlayer = playerOne; 
+              $.post("/ai/putStone", {'x' : x, 'y': y, 'move': 'x'}, function(data) {
+                  b.SetContent(x,y, 'x');              
+                  activePlayer = playerTwo;
+                  var targetFieldX = x%3; 
+                  var targetFieldY = y%3; 
+             
+            for(var fx = 0; fx < 3; fx++) {
+              for(var fy = 0; fy < 3; fy++) {
+                b.CalcFieldWon(fx, fy);  
+              }
             }
+                  if (! b.IsFullField(targetFieldX, targetFieldY)) {
+                    b.SetField(targetFieldX, targetFieldY, true); 
+                  } else {
+                    for (var fx = 0; fx < 3; fx++) {
+                      for(var fy = 0; fy < 3; fy++) {
+                        if (! b.IsFullField(fx, fy)) {
+                          b.SetField(fx, fy, false);  
+                        }
+                      }
+                    }
+                  }
+
+                  
+                  
+                  $.get("/ai/getStone", function(data) {
+                          b.SetContent(data.x, data.y, 'o'); 
+                    var aix = data.x %3; 
+                    var aiy = data.y %3; 
+                    b.CalcFieldWon(aix,aiy);  
+                    activePlayer = playerOne;
+                  if (! b.IsFullField(aix,aiy)) {
+                    b.SetField(aix,aiy, true); 
+                  } else {
+                    for (var fx = 0; fx < 3; fx++) {
+                      for(var fy = 0; fy < 3; fy++) {
+                        if (! b.IsFullField(fx, fy)) {
+                          b.SetField(fx, fy, false);  
+                        }
+                      }
+                    }
+                  }
+   
+              for(var fx = 0; fx < 3; fx++) {
+                for(var fy = 0; fy < 3; fy++) {
+                  b.CalcFieldWon(fx, fy);  
+                }
+              }
+              if (data.winner) {
+                      confirm("Game Over! Winner: "+data.winner);
+                      location.reload();
+                      return
+               }
+                })
+              })
+            } else {
+              alert("it is not your turn, please wait for the ai to play"); 
+              return;
+            }
+           
             
-            b.CalcFieldWon(fieldX, fieldY);  
+            for(var fx = 0; fx < 3; fx++) {
+              for(var fy = 0; fy < 3; fy++) {
+                b.CalcFieldWon(fx, fy);  
+              }
+            }
 
             var targetFieldX = x%3; 
             var targetFieldY = y%3; 
