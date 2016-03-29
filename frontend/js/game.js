@@ -181,9 +181,11 @@ $.fn.tictacnine = function() {
             }
 
             if (activePlayer === playerOne) {
-              b.SetContent(x,y, 'x');              
+              b.SetContent(x,y, 'x');    
+              $.post("/log", {'color' : 'x', 'x': x, 'y': y, 'fx': fieldX, 'fy': fieldY}, function(){})
               activePlayer = playerTwo; 
             } else {
+              $.post("/log", {'color' : 'o', 'x': x, 'y': y, 'fx': fieldX, 'fy': fieldY}, function(){})
               b.SetContent(x,y, 'o');              
               activePlayer = playerOne; 
             }
